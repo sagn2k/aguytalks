@@ -39,8 +39,13 @@ a{color:inherit;text-decoration:none;}
 }
 .stage video,.stage img{
   width:100%;height:100%;
-  object-fit:contain;          /* square source, black edges, centred */
+  object-fit:contain;          /* centred, black edges */
   display:block;
+}
+/* a 16:9 source letterboxed into a portrait phone is a thin strip:
+   fill instead, and take the crop on the sides */
+@media (orientation:portrait){
+  .stage video,.stage img{object-fit:cover;}
 }
 
 /* &#9472;&#9472; scene: one idea, one screen, edge to edge &#9472;&#9472;&#9472;&#9472;&#9472; */
@@ -51,11 +56,22 @@ a{color:inherit;text-decoration:none;}
   overflow:hidden;
   isolation:isolate;
 }
-.scene{background:var(--ink);}
-.scene.light{background:var(--bone);color:var(--ink);}
-.scene.hero{background:transparent;}
-.colo{background:var(--ink);}
+.scene{background:transparent;}
+/* a scene showing his photography covers the video; everything else lets it run */
+.scene:has(.bleed){background:var(--ink);}
 .reelwrap{background:var(--ink);}
+.colo{background:rgba(8,6,3,.82);}
+/* scrim: keeps type legible over moving footage without killing the picture */
+.scene:not(.hero):not(:has(.bleed))::before{
+  content:"";position:absolute;inset:0;z-index:-1;
+  background:rgba(6,5,2,.60);
+}
+/* the footage has bright passages; a soft shadow guarantees the type
+   separates from them without dimming the picture any further */
+.scene:not(:has(.bleed)) .inner,
+.hero .inner{
+  text-shadow:0 1px 22px rgba(0,0,0,.62), 0 1px 3px rgba(0,0,0,.38);
+}
 
 .bleed{position:absolute;inset:0;z-index:-2;}
 .bleed img{
@@ -82,7 +98,6 @@ a{color:inherit;text-decoration:none;}
   text-transform:uppercase;letter-spacing:.3em;
   color:var(--dim);font-weight:400;margin:0;
 }
-.light .eyebrow{color:var(--ink-dim);}
 
 .wordmark{
   margin:0;font-weight:600;
@@ -96,7 +111,6 @@ a{color:inherit;text-decoration:none;}
   max-width:16ch;text-wrap:balance;
 }
 .mega em{font-style:normal;color:var(--dim);}
-.light .mega em{color:var(--ink-dim);}
 
 .big{
   margin:0;font-weight:500;
@@ -105,7 +119,6 @@ a{color:inherit;text-decoration:none;}
   max-width:20ch;text-wrap:balance;
 }
 .say{max-width:56ch;color:var(--dim);font-size:clamp(14px,1.5vw,17px);margin:0;}
-.light .say{color:var(--ink-dim);}
 
 /* &#9472;&#9472; hero &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; */
 .hero .inner{justify-content:space-between;}
@@ -125,22 +138,19 @@ a{color:inherit;text-decoration:none;}
   font-variant-numeric:tabular-nums;margin-bottom:10px;
 }
 .figs span{font-size:clamp(9px,1vw,11px);text-transform:uppercase;letter-spacing:.24em;color:var(--dim);}
-.light .figs span{color:var(--ink-dim);}
 
 .rates{display:grid;width:100%;margin-top:clamp(26px,4vh,52px);}
 .rates div{
   display:flex;align-items:baseline;gap:clamp(14px,2.5vw,32px);
   border-top:1px solid var(--faint);padding:clamp(12px,1.8vh,20px) 0;
 }
-.light .rates div{border-color:var(--ink-faint);}
 .rates b{font-weight:500;font-size:clamp(20px,2.8vw,36px);letter-spacing:-.03em;min-width:3.4em;font-variant-numeric:tabular-nums;}
 .rates span{font-size:clamp(10px,1.1vw,12px);text-transform:uppercase;letter-spacing:.2em;color:var(--dim);}
-.light .rates span{color:var(--ink-dim);}
 
 /* &#9472;&#9472; essays &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; */
 .essays{list-style:none;margin:0;padding:0;width:100%;}
-.essays li{border-top:1px solid var(--ink-faint);}
-.essays li:last-child{border-bottom:1px solid var(--ink-faint);}
+.essays li{border-top:1px solid var(--faint);}
+.essays li:last-child{border-bottom:1px solid var(--faint);}
 .essays a{
   display:grid;grid-template-columns:1fr;gap:4px;
   padding:clamp(14px,2.2vh,26px) 0;
@@ -153,10 +163,10 @@ a{color:inherit;text-decoration:none;}
   font-weight:500;font-size:clamp(19px,2.9vw,40px);
   line-height:1.08;letter-spacing:-.03em;text-wrap:balance;
 }
-.essays .su{display:block;margin-top:5px;font-size:clamp(12px,1.3vw,14px);color:var(--ink-dim);line-height:1.4;}
+.essays .su{display:block;margin-top:5px;font-size:clamp(12px,1.3vw,14px);color:var(--dim);line-height:1.4;}
 .essays .dept,.essays .dt{
   font-size:10px;text-transform:uppercase;letter-spacing:.22em;
-  color:var(--ink-dim);font-variant-numeric:tabular-nums;
+  color:var(--dim);font-variant-numeric:tabular-nums;
 }
 @media(max-width:859px){.essays .dept{margin-right:14px;}.essays .meta{margin-top:8px;}}
 @media(min-width:860px){.essays .meta{display:contents;}}
@@ -249,8 +259,8 @@ a{color:inherit;text-decoration:none;}
 .aud{display:grid;gap:clamp(24px,4vw,56px);width:100%;}
 @media(min-width:820px){.aud{grid-template-columns:repeat(3,1fr);}}
 .aud dl{margin:0;}
-.aud .pair{display:flex;justify-content:space-between;align-items:baseline;gap:16px;border-top:1px solid var(--ink-faint);padding:11px 0;}
-.aud dt{font-size:10px;text-transform:uppercase;letter-spacing:.2em;color:var(--ink-dim);}
+.aud .pair{display:flex;justify-content:space-between;align-items:baseline;gap:16px;border-top:1px solid var(--faint);padding:11px 0;}
+.aud dt{font-size:10px;text-transform:uppercase;letter-spacing:.2em;color:var(--dim);}
 .aud dd{margin:0;font-weight:500;font-size:clamp(16px,2vw,24px);letter-spacing:-.02em;font-variant-numeric:tabular-nums;}
 
 /* &#9472;&#9472; contact &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; */
@@ -277,15 +287,15 @@ a{color:inherit;text-decoration:none;}
 
 @media (prefers-reduced-motion:reduce){
   .stage video{display:none;}
-  .stage{background:#000 center/contain no-repeat url(img/sj-poster.jpg);}
+  .stage{background:#000 center/contain no-repeat url(img/opening-poster.jpg);}
   *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;}
   .rv{opacity:1;transform:none;}
 }
 </style>
 
 <div class="stage" aria-hidden="true">
-  <video id="stagevid" autoplay muted loop playsinline preload="auto" poster="img/sj-poster.jpg">
-    <source src="video/sj.mp4" type="video/mp4">
+  <video id="stagevid" autoplay muted loop playsinline preload="auto" poster="img/opening-poster.jpg">
+    <source src="video/opening.mp4" type="video/mp4">
   </video>
 </div>
 
@@ -316,7 +326,7 @@ a{color:inherit;text-decoration:none;}
 </section>
 
 <!-- &#9552;&#9552; 3 &#183; THE NUMBERS &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552; -->
-<section class="scene light rv">
+<section class="scene rv">
   <div class="inner center">
     <p class="eyebrow">The numbers &mdash; 22 April to 21 May 2025</p>
     <div class="figs">
@@ -345,7 +355,7 @@ a{color:inherit;text-decoration:none;}
 </section>
 
 <!-- &#9552;&#9552; 5 &#183; THE WRITING &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552; -->
-<section class="scene light rv">
+<section class="scene rv">
   <div class="inner center">
     <p class="eyebrow">The writing &mdash; nine essays on Substack</p>
     <ul class="essays">
@@ -486,7 +496,7 @@ a{color:inherit;text-decoration:none;}
 </section>
 
 <!-- &#9552;&#9552; 9 &#183; THE AUDIENCE &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552; -->
-<section class="scene light rv">
+<section class="scene rv">
   <div class="inner center">
     <p class="eyebrow">The audience &mdash; US &middot; UK &middot; India &middot; France</p>
     <p class="big" style="margin-bottom:clamp(18px,3vh,36px)">A global audience of fashion-forward thinkers.</p>

@@ -175,14 +175,14 @@ def build_depts(arc):
 
 def build_stage():
     """The pinned background video plus its poster frame."""
-    mp4  = os.path.join(ASSETS, 'video', 'sj.mp4')
-    post = os.path.join(ASSETS, 'video', 'sj-poster.jpg')
+    mp4  = os.path.join(ASSETS, 'video', 'opening.mp4')
+    post = os.path.join(ASSETS, 'video', 'opening-poster.jpg')
     if not os.path.exists(mp4):
-        print('  video      (missing assets/video/sj.mp4)')
+        print('  video      (missing assets/video/opening.mp4)')
         return '', ''
-    print('  video      sj.mp4 (%.1f MB)' % (os.path.getsize(mp4) / 1024 / 1024))
-    return (asset('sj.mp4', b64(mp4), 'video/mp4'),
-            asset('sj-poster.jpg', b64(post)))
+    print('  video      opening.mp4 (%.1f MB)' % (os.path.getsize(mp4) / 1024 / 1024))
+    return (asset('opening.mp4', b64(mp4), 'video/mp4'),
+            asset('opening-poster.jpg', b64(post)))
 
 
 def build_cover():
