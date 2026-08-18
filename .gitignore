@@ -1,0 +1,6 @@
+# SJ's original full-resolution photography stays local.
+# The site serves the compressed derivatives in docs/img/ instead.
+photos/
+
+.DS_Store
+*.original.*

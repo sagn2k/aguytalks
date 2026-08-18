@@ -1,0 +1,491 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>aguytalks</title>
+
+<style>
+@font-face{font-family:'Poppins';src:url(__FONTSRC400__) format('woff2');font-weight:400;font-style:normal;font-display:block;}
+@font-face{font-family:'Poppins';src:url(__FONTSRC500__) format('woff2');font-weight:500;font-style:normal;font-display:block;}
+@font-face{font-family:'Poppins';src:url(__FONTSRC600__) format('woff2');font-weight:600;font-style:normal;font-display:block;}
+
+/* ── one committed world, taken from his media kit ── */
+:root{
+  --ink:#151109;
+  --bone:#EDEAE2;
+  --dim:rgba(237,234,226,.52);
+  --faint:rgba(237,234,226,.28);
+  --ink-dim:rgba(21,17,9,.56);
+  --ink-faint:rgba(21,17,9,.20);
+  --f:'Poppins','Helvetica Neue',Helvetica,Arial,sans-serif;
+  --pad:clamp(20px,4.5vw,64px);
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+
+*{box-sizing:border-box;}
+html{background:var(--ink);}
+body{
+  margin:0;background:var(--ink);color:var(--bone);
+  font-family:var(--f);font-size:16px;line-height:1.6;font-weight:400;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img{display:block;max-width:100%;}
+a{color:inherit;text-decoration:none;}
+:focus-visible{outline:1px solid currentColor;outline-offset:4px;}
+
+/* ── scene: one idea, one screen, edge to edge ───── */
+.scene{
+  position:relative;
+  min-height:100svh;
+  display:flex;
+  overflow:hidden;
+  isolation:isolate;
+}
+.scene.light{background:var(--bone);color:var(--ink);}
+
+.bleed{position:absolute;inset:0;z-index:-2;}
+.bleed img{
+  width:100%;height:100%;object-fit:cover;
+  filter:grayscale(1) contrast(1.05) brightness(.92);
+}
+.veil{position:absolute;inset:0;z-index:-1;}
+.veil.bottom{background:linear-gradient(to top,rgba(12,10,5,.92) 0%,rgba(12,10,5,.74) 26%,rgba(12,10,5,.14) 62%,rgba(12,10,5,.34) 100%);}
+.veil.even{background:rgba(12,10,5,.46);}
+
+.inner{
+  position:relative;
+  width:100%;
+  padding:var(--pad);
+  display:flex;flex-direction:column;
+  justify-content:flex-end;
+  gap:clamp(14px,2.2vh,26px);
+}
+.inner.center{justify-content:center;}
+
+/* ── type ─────────────────────────────────────────── */
+.eyebrow{
+  font-size:clamp(9px,1vw,11px);
+  text-transform:uppercase;letter-spacing:.3em;
+  color:var(--dim);font-weight:400;margin:0;
+}
+.light .eyebrow{color:var(--ink-dim);}
+
+.wordmark{
+  margin:0;font-weight:600;
+  font-size:clamp(44px,13vw,190px);
+  line-height:.86;letter-spacing:-.035em;
+}
+.mega{
+  margin:0;font-weight:500;
+  font-size:clamp(30px,6.4vw,100px);
+  line-height:.99;letter-spacing:-.03em;
+  max-width:16ch;text-wrap:balance;
+}
+.mega em{font-style:normal;color:var(--dim);}
+.light .mega em{color:var(--ink-dim);}
+
+.big{
+  margin:0;font-weight:500;
+  font-size:clamp(24px,4.4vw,64px);
+  line-height:1.05;letter-spacing:-.025em;
+  max-width:20ch;text-wrap:balance;
+}
+.say{max-width:56ch;color:var(--dim);font-size:clamp(14px,1.5vw,17px);margin:0;}
+.light .say{color:var(--ink-dim);}
+
+/* ── hero ─────────────────────────────────────────── */
+.hero .inner{justify-content:space-between;}
+.hero-block{display:flex;flex-direction:column;gap:clamp(12px,2vh,22px);}
+.hero-top{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+.hero-foot{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;}
+.cue{width:1px;height:clamp(38px,7vh,64px);background:currentColor;opacity:.5;transform-origin:bottom;animation:cue 3s ease-in-out infinite;}
+@keyframes cue{0%,100%{transform:scaleY(.28);opacity:.22;}50%{transform:scaleY(1);opacity:.6;}}
+
+/* ── numbers ──────────────────────────────────────── */
+.figs{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(22px,4vw,52px) clamp(18px,3vw,40px);width:100%;}
+@media(min-width:820px){.figs{grid-template-columns:repeat(4,1fr);}}
+.figs b{
+  display:block;font-weight:500;
+  font-size:clamp(36px,7vw,100px);
+  line-height:.9;letter-spacing:-.045em;
+  font-variant-numeric:tabular-nums;margin-bottom:10px;
+}
+.figs span{font-size:clamp(9px,1vw,11px);text-transform:uppercase;letter-spacing:.24em;color:var(--dim);}
+.light .figs span{color:var(--ink-dim);}
+
+.rates{display:grid;width:100%;margin-top:clamp(26px,4vh,52px);}
+.rates div{
+  display:flex;align-items:baseline;gap:clamp(14px,2.5vw,32px);
+  border-top:1px solid var(--faint);padding:clamp(12px,1.8vh,20px) 0;
+}
+.light .rates div{border-color:var(--ink-faint);}
+.rates b{font-weight:500;font-size:clamp(20px,2.8vw,36px);letter-spacing:-.03em;min-width:3.4em;font-variant-numeric:tabular-nums;}
+.rates span{font-size:clamp(10px,1.1vw,12px);text-transform:uppercase;letter-spacing:.2em;color:var(--dim);}
+.light .rates span{color:var(--ink-dim);}
+
+/* ── essays ───────────────────────────────────────── */
+.essays{list-style:none;margin:0;padding:0;width:100%;}
+.essays li{border-top:1px solid var(--ink-faint);}
+.essays li:last-child{border-bottom:1px solid var(--ink-faint);}
+.essays a{
+  display:grid;grid-template-columns:1fr;gap:4px;
+  padding:clamp(14px,2.2vh,26px) 0;
+  transition:opacity .5s var(--ease),padding-left .5s var(--ease);
+}
+@media(min-width:860px){
+  .essays a{grid-template-columns:1fr 168px 92px;align-items:baseline;gap:clamp(16px,3vw,40px);}
+}
+.essays .ti{
+  font-weight:500;font-size:clamp(19px,2.9vw,40px);
+  line-height:1.08;letter-spacing:-.03em;text-wrap:balance;
+}
+.essays .su{display:block;margin-top:5px;font-size:clamp(12px,1.3vw,14px);color:var(--ink-dim);line-height:1.4;}
+.essays .dept,.essays .dt{
+  font-size:10px;text-transform:uppercase;letter-spacing:.22em;
+  color:var(--ink-dim);font-variant-numeric:tabular-nums;
+}
+@media(max-width:859px){.essays .dept{margin-right:14px;}.essays .meta{margin-top:8px;}}
+@media(min-width:860px){.essays .meta{display:contents;}}
+.essays:hover a{opacity:.34;}
+.essays:hover a:hover{opacity:1;padding-left:clamp(8px,1.4vw,20px);}
+
+/* ── plates: full-bleed horizontal reel ──────────── */
+.reelwrap{position:relative;}
+.reel{
+  display:flex;
+  height:100svh;
+  overflow-x:auto;overflow-y:hidden;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+}
+.reel::-webkit-scrollbar{display:none;}
+.reel figure{
+  margin:0;position:relative;flex:0 0 auto;
+  height:100%;scroll-snap-align:center;
+}
+.reel img{
+  height:100%;width:auto;max-width:none;
+  object-fit:cover;
+  filter:grayscale(1) contrast(1.05) brightness(.94);
+  user-select:none;-webkit-user-drag:none;
+}
+.reel figcaption{
+  position:absolute;left:0;right:0;bottom:0;
+  padding:clamp(14px,2.2vw,26px);
+  display:flex;justify-content:space-between;gap:16px;
+  background:linear-gradient(to top,rgba(12,10,5,.82),transparent);
+  font-size:10px;text-transform:uppercase;letter-spacing:.22em;color:var(--bone);
+}
+.reel-label{position:absolute;top:var(--pad);left:var(--pad);z-index:2;color:var(--bone);}
+
+/* ── films: real IG embeds where allowed, designed card where not ── */
+.filmgrid{display:grid;gap:clamp(30px,4.5vw,60px);width:100%;}
+@media(min-width:900px){.filmgrid{grid-template-columns:1fr 1fr;}}
+.film{display:flex;flex-direction:column;gap:clamp(12px,1.8vh,18px);min-width:0;}
+.screen{
+  position:relative;width:100%;aspect-ratio:9/16;max-height:62svh;
+  background:#0C0A05;border:1px solid var(--faint);
+  overflow:hidden;display:grid;place-items:center;
+}
+@media(min-width:900px){.screen{aspect-ratio:4/5;}}
+.screen iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
+.play{
+  display:grid;place-items:center;gap:14px;
+  width:100%;height:100%;
+  transition:opacity .45s var(--ease);
+}
+.play:hover{opacity:.62;}
+.play .tri{
+  width:clamp(52px,7vw,74px);height:clamp(52px,7vw,74px);
+  border:1px solid var(--bone);border-radius:50%;
+  display:grid;place-items:center;
+}
+.play .tri::after{
+  content:"";display:block;
+  border-left:clamp(13px,1.7vw,18px) solid var(--bone);
+  border-top:clamp(8px,1.1vw,11px) solid transparent;
+  border-bottom:clamp(8px,1.1vw,11px) solid transparent;
+  margin-left:.22em;
+}
+.play span.txt{font-size:10px;text-transform:uppercase;letter-spacing:.26em;color:var(--dim);}
+.filmtitle{
+  margin:0;font-weight:500;
+  font-size:clamp(20px,2.7vw,34px);line-height:1.08;letter-spacing:-.03em;
+  text-wrap:balance;
+}
+.filmstats{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(10px,1.6vw,22px);margin-top:2px;}
+.filmstats div{border-top:1px solid var(--faint);padding-top:10px;}
+.filmstats b{display:block;font-weight:500;font-size:clamp(17px,2.1vw,28px);letter-spacing:-.03em;font-variant-numeric:tabular-nums;margin-bottom:4px;}
+.filmstats span{font-size:9px;text-transform:uppercase;letter-spacing:.2em;color:var(--dim);}
+
+/* ── names ────────────────────────────────────────── */
+.names{list-style:none;margin:0;padding:0;width:100%;}
+.names li{
+  display:flex;justify-content:space-between;align-items:baseline;
+  gap:clamp(14px,3vw,40px);flex-wrap:wrap;
+  border-top:1px solid var(--faint);
+  padding:clamp(12px,2.1vh,24px) 0;
+}
+.names li:last-child{border-bottom:1px solid var(--faint);}
+.names .who{font-weight:500;font-size:clamp(22px,4.2vw,56px);line-height:1;letter-spacing:-.035em;}
+.names .did{font-size:10px;text-transform:uppercase;letter-spacing:.22em;color:var(--dim);}
+
+/* ── audience ─────────────────────────────────────── */
+.aud{display:grid;gap:clamp(24px,4vw,56px);width:100%;}
+@media(min-width:820px){.aud{grid-template-columns:repeat(3,1fr);}}
+.aud dl{margin:0;}
+.aud .pair{display:flex;justify-content:space-between;align-items:baseline;gap:16px;border-top:1px solid var(--ink-faint);padding:11px 0;}
+.aud dt{font-size:10px;text-transform:uppercase;letter-spacing:.2em;color:var(--ink-dim);}
+.aud dd{margin:0;font-weight:500;font-size:clamp(16px,2vw,24px);letter-spacing:-.02em;font-variant-numeric:tabular-nums;}
+
+/* ── contact ──────────────────────────────────────── */
+.mail{
+  display:inline-block;font-weight:500;
+  font-size:clamp(19px,4.4vw,60px);letter-spacing:-.035em;
+  line-height:1.06;word-break:break-word;
+  border-bottom:1px solid var(--faint);padding-bottom:.08em;
+  transition:opacity .4s var(--ease);
+}
+.mail:hover{opacity:.55;}
+.links{display:flex;gap:clamp(18px,3.5vw,44px);flex-wrap:wrap;}
+.links a{font-size:10px;text-transform:uppercase;letter-spacing:.24em;color:var(--dim);transition:color .4s;}
+.links a:hover{color:var(--bone);}
+
+/* ── colophon ─────────────────────────────────────── */
+.colo{padding:clamp(26px,4vw,44px) var(--pad);display:grid;gap:18px;border-top:1px solid var(--faint);}
+.colo .row{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;}
+.colo p{margin:0;font-size:11.5px;line-height:1.6;color:var(--faint);max-width:86ch;}
+
+/* ── reveal ───────────────────────────────────────── */
+.rv{opacity:0;transform:translateY(16px);transition:opacity 1.1s var(--ease),transform 1.1s var(--ease);}
+.rv.in{opacity:1;transform:none;}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;}
+  .rv{opacity:1;transform:none;}
+}
+</style>
+
+<!-- ══ 1 · HERO ═══════════════════════════════════ -->
+<section class="scene hero">
+  <div class="bleed">__COVER_IMG__</div>
+  <div class="veil bottom"></div>
+  <div class="inner">
+    <div class="hero-top">
+      <p class="eyebrow">SJ Singh &mdash; Content Creator</p>
+      <p class="eyebrow">New Delhi &middot; Paris</p>
+    </div>
+    <div class="hero-block">
+      <h1 class="wordmark">aguytalks</h1>
+      <div class="hero-foot">
+        <p class="eyebrow">Fashion criticism with cultural depth</p>
+        <span class="cue"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 2 · THE THESIS ═════════════════════════════ -->
+<section class="scene rv">
+  <div class="inner center">
+    <p class="eyebrow">The difference</p>
+    <p class="mega">Most accounts engage their existing audience. <em>His content moves strangers.</em></p>
+  </div>
+</section>
+
+<!-- ══ 3 · THE NUMBERS ════════════════════════════ -->
+<section class="scene light rv">
+  <div class="inner center">
+    <p class="eyebrow">The numbers &mdash; 22 April to 21 May 2025</p>
+    <div class="figs">
+      <div><b>75.2K</b><span>Followers</span></div>
+      <div><b>1.13M</b><span>Monthly views</span></div>
+      <div><b>770K</b><span>Accounts reached</span></div>
+      <div><b>186K</b><span>Monthly interactions</span></div>
+    </div>
+    <div class="rates">
+      <div><b>23.9%</b><span>Engagement rate by reach</span></div>
+      <div><b>87%</b><span>Interactions from non-followers</span></div>
+      <div><b>70.1%</b><span>Views from non-followers</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 4 · THE WORK ═══════════════════════════════ -->
+<section class="scene rv">
+  <div class="bleed">__PLATE_IMG__</div>
+  <div class="veil even"></div>
+  <div class="inner">
+    <p class="eyebrow">The work</p>
+    <p class="big">Two formats. One mission.</p>
+    <p class="say">On Instagram, viral video essays that turn collections into cultural conversations &mdash; deep research, cinematic execution, built for the algorithm and the intellect. On Substack, long-form criticism that positions collections where they belong: at the top of the cultural and creative hierarchy.</p>
+  </div>
+</section>
+
+<!-- ══ 5 · THE WRITING ════════════════════════════ -->
+<section class="scene light rv">
+  <div class="inner center">
+    <p class="eyebrow">The writing &mdash; nine essays on Substack</p>
+    <ul class="essays">
+      __TOC__
+    </ul>
+  </div>
+</section>
+
+<!-- ══ 6 · THE PLATES ═════════════════════════════ -->
+<div class="reelwrap rv">
+  <p class="eyebrow reel-label">Plates &mdash; drag</p>
+  <div class="reel">
+    __LOOKBOOK__
+  </div>
+</div>
+
+<!-- ══ 7 · THE INDUSTRY ═══════════════════════════ -->
+<section class="scene rv">
+  <div class="inner center">
+    <p class="eyebrow">The industry took notice</p>
+    <ul class="names">
+      <li><span class="who">John Galliano</span><span class="did">Follows</span></li>
+      <li><span class="who">Marc Jacobs</span><span class="did">Followed from a reel &middot; replied</span></li>
+      <li><span class="who">Jonathan Anderson</span><span class="did">Liked the Dior essay</span></li>
+      <li><span class="who">Renzo Rosso</span><span class="did">Reposted the Margiela reel</span></li>
+      <li><span class="who">Stefano Pilati</span><span class="did">Followed from a reel</span></li>
+      <li><span class="who">Zac Posen</span><span class="did">Follows</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ══ 8 · THE FILMS ═════════════════════════════ -->
+<section class="scene rv">
+  <div class="inner center">
+    <p class="eyebrow">The films &mdash; video essays on Instagram</p>
+    <div class="filmgrid">
+
+      <article class="film" data-reel="DJZeAsEsNum">
+        <div class="screen">
+          <a class="play" href="https://www.instagram.com/reel/DJZeAsEsNum/" target="_blank" rel="noopener">
+            <span class="tri"></span>
+            <span class="txt">Watch on Instagram</span>
+          </a>
+        </div>
+        <p class="eyebrow">May 2025 &middot; 1:47</p>
+        <h3 class="filmtitle">some met gala looks that really mattered</h3>
+        <p class="say">Framed menswear as a cultural statement and sparked a global conversation on masculinity in red-carpet dressing. Featured Grace Wales Bonner, Maison Margiela, Burberry.</p>
+        <div class="filmstats">
+          <div><b>2.28M</b><span>Views</span></div>
+          <div><b>213K</b><span>Likes</span></div>
+          <div><b>43K</b><span>Shares</span></div>
+          <div><b>273K</b><span>Interactions</span></div>
+        </div>
+      </article>
+
+      <article class="film" data-reel="DSNdnIDE5nq">
+        <div class="screen">
+          <a class="play" href="https://www.instagram.com/reel/DSNdnIDE5nq/" target="_blank" rel="noopener">
+            <span class="tri"></span>
+            <span class="txt">Watch on Instagram</span>
+          </a>
+        </div>
+        <p class="eyebrow">December 2025 &middot; 2:14</p>
+        <h3 class="filmtitle">intellectualism is the new sexy.</h3>
+        <p class="say">Connected Dior&rsquo;s collection to AI culture, Substack, identity signalling and modern consumer psychology &mdash; turning a runway show into a wider cultural argument.</p>
+        <div class="filmstats">
+          <div><b>456K</b><span>Views</span></div>
+          <div><b>25K</b><span>Likes</span></div>
+          <div><b>11K</b><span>Shares</span></div>
+          <div><b>48K</b><span>Interactions</span></div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ 9 · THE AUDIENCE ═══════════════════════════ -->
+<section class="scene light rv">
+  <div class="inner center">
+    <p class="eyebrow">The audience &mdash; US &middot; UK &middot; India &middot; France</p>
+    <p class="big" style="margin-bottom:clamp(18px,3vh,36px)">A global audience of fashion-forward thinkers.</p>
+    <div class="aud">
+      <dl>
+        <div class="pair"><dt>New York</dt><dd>1st</dd></div>
+        <div class="pair"><dt>London</dt><dd>2nd</dd></div>
+        <div class="pair"><dt>Mumbai</dt><dd>3rd</dd></div>
+      </dl>
+      <dl>
+        <div class="pair"><dt>Women</dt><dd>61.8%</dd></div>
+        <div class="pair"><dt>Men</dt><dd>38.2%</dd></div>
+      </dl>
+      <dl>
+        <div class="pair"><dt>25&ndash;34</dt><dd>32.6%</dd></div>
+        <div class="pair"><dt>35&ndash;44</dt><dd>20.2%</dd></div>
+        <div class="pair"><dt>18&ndash;24</dt><dd>17.9%</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 10 · CONTACT ═══════════════════════════════ -->
+<section class="scene rv">
+  <div class="bleed">__PORTRAIT__</div>
+  <div class="veil even"></div>
+  <div class="inner">
+    <p class="eyebrow">For collaboration</p>
+    <p class="mega" style="max-width:20ch">Let&rsquo;s position your next collection as a cultural event.</p>
+    <a class="mail" href="mailto:aguytalksbiz@gmail.com">aguytalksbiz@gmail.com</a>
+    <div class="links" style="margin-top:clamp(14px,2.4vh,28px)">
+      <a href="https://www.instagram.com/aguytalks/" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://aguytalks.substack.com" target="_blank" rel="noopener">Substack</a>
+    </div>
+  </div>
+</section>
+
+<footer class="colo">
+  <div class="row">
+    <span class="eyebrow">aguytalks</span>
+    <span class="eyebrow">SJ Singh</span>
+    <span class="eyebrow">MMXXVI</span>
+  </div>
+  <p>Design direction sample. Essays and dates pull live from the Substack. Figures, audience data and industry notices are from the official media kit, data window 22 April to 21 May 2025. Photography by and of SJ, supplied by the author. Plate captions are placeholders.</p>
+</footer>
+
+<script>
+(function(){
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  },{threshold:.08, rootMargin:'0px 0px -6% 0px'});
+  document.querySelectorAll('.rv').forEach(function(n){ io.observe(n); });
+
+  /* Instagram embeds need a host that permits instagram.com. Probe first;
+     if it is blocked (as under a strict CSP) the designed card simply stays. */
+  var films=document.querySelectorAll('.film[data-reel]');
+  if(films.length){
+    fetch('https://www.instagram.com/favicon.ico',{mode:'no-cors',cache:'no-store'})
+      .then(function(){
+        films.forEach(function(f){
+          var code=f.getAttribute('data-reel');
+          var fr=document.createElement('iframe');
+          fr.src='https://www.instagram.com/reel/'+code+'/embed/';
+          fr.setAttribute('loading','lazy');
+          fr.setAttribute('title','Instagram reel by @aguytalks');
+          fr.setAttribute('allow','autoplay; clipboard-write; encrypted-media; picture-in-picture');
+          fr.setAttribute('allowfullscreen','');
+          fr.setAttribute('scrolling','no');
+          f.querySelector('.screen').appendChild(fr);
+        });
+      })
+      .catch(function(){ /* card stays, link still works */ });
+  }
+
+  var reel=document.querySelector('.reel');
+  if(reel){
+    var down=false,x0=0,l0=0,moved=false;
+    reel.addEventListener('pointerdown',function(e){down=true;moved=false;x0=e.clientX;l0=reel.scrollLeft;reel.setPointerCapture(e.pointerId);reel.style.cursor='grabbing';});
+    reel.addEventListener('pointermove',function(e){if(down){var d=e.clientX-x0;if(Math.abs(d)>3){moved=true;}reel.scrollLeft=l0-d;}});
+    function up(){down=false;reel.style.cursor='grab';}
+    reel.addEventListener('pointerup',up);
+    reel.addEventListener('pointercancel',up);
+    reel.addEventListener('click',function(e){if(moved){e.preventDefault();}},true);
+    reel.style.cursor='grab';
+  }
+})();
+</script>
