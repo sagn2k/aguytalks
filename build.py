@@ -68,7 +68,8 @@ def asset(name, data_b64, mime='image/jpeg'):
     """Inline as a data URI, or write a real file and return its path."""
     if not SPLIT:
         return 'data:%s;base64,%s' % (mime, data_b64)
-    sub = 'fonts' if mime.startswith('font') else 'img'
+    sub = ('fonts' if mime.startswith('font')
+           else 'video' if mime.startswith('video') else 'img')
     d = os.path.join(DIST, sub)
     os.makedirs(d, exist_ok=True)
     with open(os.path.join(d, name), 'wb') as f:
@@ -172,6 +173,18 @@ def build_depts(arc):
 
 # ---------------------------------------------------------------- photos
 
+def build_stage():
+    """The pinned background video plus its poster frame."""
+    mp4  = os.path.join(ASSETS, 'video', 'sj.mp4')
+    post = os.path.join(ASSETS, 'video', 'sj-poster.jpg')
+    if not os.path.exists(mp4):
+        print('  video      (missing assets/video/sj.mp4)')
+        return '', ''
+    print('  video      sj.mp4 (%.1f MB)' % (os.path.getsize(mp4) / 1024 / 1024))
+    return (asset('sj.mp4', b64(mp4), 'video/mp4'),
+            asset('sj-poster.jpg', b64(post)))
+
+
 def build_cover():
     p = find_photo('cover')
     if p:
@@ -246,14 +259,18 @@ def main():
         t = t.replace('__FONTSRC%s__' % w, src)
     look_html, look_count = build_lookbook()
     portrait = build_portrait()
-    t = t.replace('__COVER_IMG__',      build_cover())
+    video_src, poster_src = build_stage()
+    t = t.replace('__VIDEO__',          video_src)
+    t = t.replace('__POSTER__',         poster_src)
+    if '__COVER_IMG__' in t:
+        t = t.replace('__COVER_IMG__',  build_cover())
     t = t.replace('__PLATE_IMG__',      plate_img)
     t = t.replace('__PLATE_CAP__',      plate_cap)
     t = t.replace('__PORTRAIT__',       portrait)
     t = t.replace('__LOOKBOOK__',       look_html)
     t = t.replace('__TOC__',            build_toc(arc))
 
-    left = [tok for tok in ('__COVER_IMG__', '__PLATE_IMG__', '__PORTRAIT__',
+    left = [tok for tok in ('__VIDEO__', '__POSTER__', '__PLATE_IMG__', '__PORTRAIT__',
                             '__LOOKBOOK__', '__TOC__',
                             '__FONTSRC400__', '__FONTSRC500__', '__FONTSRC600__') if tok in t]
     if left:

@@ -20,9 +20,9 @@
 }
 
 *{box-sizing:border-box;}
-html{background:var(--ink);}
+html{background:#000;}
 body{
-  margin:0;background:var(--ink);color:var(--bone);
+  margin:0;background:transparent;color:var(--bone);
   font-family:var(--f);font-size:16px;line-height:1.6;font-weight:400;
   -webkit-font-smoothing:antialiased;
   overflow-x:hidden;
@@ -30,6 +30,18 @@ body{
 img{display:block;max-width:100%;}
 a{color:inherit;text-decoration:none;}
 :focus-visible{outline:1px solid currentColor;outline-offset:4px;}
+
+/* ── the stage: video pinned full-screen behind the page ── */
+.stage{
+  position:fixed;inset:0;z-index:-10;
+  background:#000;
+  pointer-events:none;
+}
+.stage video,.stage img{
+  width:100%;height:100%;
+  object-fit:contain;          /* square source, black edges, centred */
+  display:block;
+}
 
 /* ── scene: one idea, one screen, edge to edge ───── */
 .scene{
@@ -39,7 +51,11 @@ a{color:inherit;text-decoration:none;}
   overflow:hidden;
   isolation:isolate;
 }
+.scene{background:var(--ink);}
 .scene.light{background:var(--bone);color:var(--ink);}
+.scene.hero{background:transparent;}
+.colo{background:var(--ink);}
+.reelwrap{background:var(--ink);}
 
 .bleed{position:absolute;inset:0;z-index:-2;}
 .bleed img{
@@ -260,14 +276,21 @@ a{color:inherit;text-decoration:none;}
 .rv.in{opacity:1;transform:none;}
 
 @media (prefers-reduced-motion:reduce){
+  .stage video{display:none;}
+  .stage{background:#000 center/contain no-repeat url(__POSTER__);}
   *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;}
   .rv{opacity:1;transform:none;}
 }
 </style>
 
+<div class="stage" aria-hidden="true">
+  <video id="stagevid" autoplay muted loop playsinline preload="auto" poster="__POSTER__">
+    <source src="__VIDEO__" type="video/mp4">
+  </video>
+</div>
+
 <!-- ══ 1 · HERO ═══════════════════════════════════ -->
 <section class="scene hero">
-  <div class="bleed">__COVER_IMG__</div>
   <div class="veil bottom"></div>
   <div class="inner">
     <div class="hero-top">
@@ -450,6 +473,17 @@ a{color:inherit;text-decoration:none;}
 
 <script>
 (function(){
+  /* Some browsers refuse the autoplay promise until a gesture; retry once. */
+  var v=document.getElementById('stagevid');
+  if(v){
+    var go=function(){ var p=v.play(); if(p&&p.catch){ p.catch(function(){}); } };
+    go();
+    document.addEventListener('pointerdown',go,{once:true});
+    document.addEventListener('visibilitychange',function(){
+      if(!document.hidden){ go(); }
+    });
+  }
+
   var io=new IntersectionObserver(function(es){
     es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
   },{threshold:.08, rootMargin:'0px 0px -6% 0px'});
